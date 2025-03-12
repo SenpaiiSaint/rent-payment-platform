@@ -1,10 +1,27 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, model, models, Document } from "mongoose";
 
-const RentSchema = new mongoose.Schema({
+// Define TypeScript interface for type safety
+interface IRent extends Document {
+  tenantName: string;
+  amount: number;
+  date?: Date;
+  status: "pending" | "paid" | "failed";
+}
+
+const RentSchema = new Schema<IRent>(
+  {
     tenantName: { type: String, required: true },
     amount: { type: Number, required: true },
     date: { type: Date, default: Date.now },
-    status: { type: String, default: "paid" }
-});
+    status: {
+      type: String,
+      enum: ["pending", "paid", "failed"], // Ensure only valid status values
+      default: "paid",
+    },
+  },
+  { timestamps: true } // Automatically add createdAt and updatedAt
+);
 
-export default mongoose.model("Rent", RentSchema);
+const Rent = models.Rent || model<IRent>("Rent", RentSchema);
+
+export default Rent;
