@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
-import Link from "next/link";
 import { Metadata } from "next";
 import "./globals.css";
+import NavBar from "./components/Navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,12 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased bg-stone-100`}>
-        <nav className="bg-blue-600 p-4 text-white">
-          <Link href="/" className="mr-4">Home</Link>
-          <Link href="/payments" className="mr-4">Payments</Link>
-          <Link href="/profile">Profile</Link>
-        </nav>
-        <main className="p-4">{children}</main>
+        {/* ✅ NavBar */}
+        <NavBar />
+        
+        {/* ✅ Main Content */}
+        <div className="container mx-auto p-6">
+          {children}
+        </div>
       </body>
     </html>
   );
